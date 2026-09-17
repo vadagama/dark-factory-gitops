@@ -8,9 +8,12 @@ replicaCount: 1
 
 image:
   repository: busybox
-  # Immutable digest (ADR-015 п.5). The placeholder is valid seed content:
-  # the first GitOps MR replaces it with the real digest of the built image.
-  digest: "sha256:__PILOT_IMAGE_DIGEST__"
+  # Immutable digest (ADR-015 п.5).
+  # promote: first digest promotion (TD-020 bring-up, DoD T-043 GitOps chain).
+  # Fixture image, not factory-built: busybox:1.37 multi-arch index digest,
+  # the same digest pinned in dark-factory-mvp deploy/ci manifests (T030).
+  # product_commit/run — N/A until the trusted finalizer (T033) takes over.
+  digest: "sha256:9db7b59979c38555a39def84a31fb98b5296952f9e3afd4f6f11f05b07adfab0"
 
 # Minimal footprint inside the apps-dev admission posture (T029: ResourceQuota
 # requests 500m/1Gi, limits 1 CPU/2Gi) and the deny-by-default egress posture
