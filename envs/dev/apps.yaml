@@ -4,13 +4,15 @@
 # this directory: on sync Argo CD creates the Applications below next to itself
 # in namespace `argocd`; each child deploys its desired state into `apps-dev`.
 #
-# `pilot-dev` is the fixture for the US5 release flow (T-043/T-044): the ONLY
-# release variable is the immutable image digest in envs/dev/pilot/values.yaml
-# — the GitOps MR replaces the placeholder (see examples/gitops-mr-digest-change.md).
+# `product-1-dev` is the T043 e2e pilot: the ONLY release variable is the
+# immutable image digest in envs/dev/dark-factory-product-1/values.yaml - the
+# release MR replaces the placeholder after the product CI publishes images.
+# The former `pilot-dev` fixture (US5/T-044) is retired here: its resource
+# budget in the apps-dev quota is handed over to the pilot product.
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: pilot-dev
+  name: product-1-dev
   namespace: argocd
   labels:
     app.kubernetes.io/part-of: dark-factory
@@ -22,7 +24,7 @@ spec:
     # Application and the desired state it points to (ADR-015 п.1).
     repoURL: https://github.com/vadagama/dark-factory-gitops.git
     targetRevision: main
-    path: envs/dev/pilot
+    path: envs/dev/dark-factory-product-1
   destination:
     server: https://kubernetes.default.svc
     namespace: apps-dev
